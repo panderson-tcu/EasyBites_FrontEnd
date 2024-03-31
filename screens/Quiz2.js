@@ -122,7 +122,7 @@ const Quiz = ({ navigation }) => {
         source={require("../assets/Small-EB-Logo.png")}
       />
       <Text style={styles.question2}>Question 2</Text>
-      <Text style={styles.title}>Select Allergens That you Have </Text>
+      <Text style={styles.title}>Select any allergies you have: </Text>
       <ScrollView style={styles.allergenContainer}>
         {renderAllergens()}
       </ScrollView>
