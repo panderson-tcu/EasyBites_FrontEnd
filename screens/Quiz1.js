@@ -113,7 +113,7 @@ const Quiz = ({ navigation }) => {
           source={require("../assets/Small-EB-Logo.png")}
         />
         <Text style={styles.question1}>Question 1</Text>
-        <Text style={styles.title}>Select Appliances That you Have at Home</Text>
+        <Text style={styles.title}>Select all appliances available to you:</Text>
         <View style={styles.applianceContainer}>
           {renderAppliances()}
         </View>
