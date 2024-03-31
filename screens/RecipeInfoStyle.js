@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     top: '20%',
-    left: '75%',
+    left: '77%',
     zIndex: 1,
   },
   cardView: {
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   icon: {
     paddingLeft: '5%', 
     color: '#7B886B', 
+
   },
   infoIcons: {
     paddingLeft: '13%', 

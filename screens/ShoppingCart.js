@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, ScrollView, Image, RefreshControl } from "react-native";
+import { View, SafeAreaView, ScrollView, Image, Text, RefreshControl } from "react-native";
 import ListItem from "../components/ListItem"; 
 import styles from "./ShoppingCartStyle";
 import axios from 'axios';
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useAuth, useUser } from "@clerk/clerk-expo";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ShoppingCart = () => {
@@ -91,9 +92,15 @@ const fetchKrogerToken = async () => {
         }
       >
         <View style={styles.container}>
-          {addedRecipes.map((recipe, index) => (
-            <ListItem key={index} recipe={recipe} krogerToken={krogerToken} />
-          ))}
+          {addedRecipes.length > 0 ? (
+            addedRecipes.map((recipe, index) => (
+              <ListItem key={index} recipe={recipe} krogerToken={krogerToken} />
+            ))
+          ) : (
+            <View style={styles.noRecipesContainer}>
+              <Text style={styles.noRecipes}> You have no recipes in your cart. {'\n'} Add recipe by pressing <Ionicons name="add-circle-outline" size={24} color='#000'/> </Text>     
+            </View>              
+          )}      
         </View>
         <View style={{ height: 200 }} />
 

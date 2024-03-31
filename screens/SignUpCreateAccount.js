@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SafeAreaView, TextInput, TouchableOpacity, Text, View, Image, StyleSheet, Pressable } from 'react-native';
+import { SafeAreaView, TextInput, TouchableOpacity, Text, View, Image, StyleSheet, Pressable, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { useSignUp } from "@clerk/clerk-expo";
 import styles from './SignUpCreateAccountStyle';
 
@@ -57,6 +57,8 @@ import styles from './SignUpCreateAccountStyle';
   };
  
   return (
+    <KeyboardAvoidingView style={{ flex:1 }} behavior="padding">
+      <ScrollView>
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image source={require('../assets/EBicon.png')} style={styles.logo} />
@@ -134,6 +136,8 @@ import styles from './SignUpCreateAccountStyle';
         </View>
       )}
     </SafeAreaView>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

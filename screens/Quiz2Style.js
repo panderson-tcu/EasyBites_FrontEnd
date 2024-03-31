@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     height: 844,
     overflow: "hidden",
   },
-  question1: {
+  question2: {
     top: '15%',
     textAlign: 'center',
     fontSize: 55,
@@ -40,14 +40,14 @@ const styles = StyleSheet.create({
     top: '20%',
     textAlign: 'center',
   },
-  applianceContainer: {
-    top: '25%',
+  allergenContainer: {
+    top: '22%',
     maxHeight: "60%",
     marginBottom: 10,
     width: '80%',
     marginLeft: '10%'
   },
-  applianceButton: {
+  allergenButton: {
     backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 25,
@@ -55,13 +55,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 10,
   },
-  selectedApplianceButton: {
+  selectedAllergenButton: {
     backgroundColor: '#7B886B',
   },
-  applianceButtonText: {
+  allergenButtonText: {
     color: '#000',
+    paddingLeft: '20%'
   },
-  selectedApplianceButtonText: {
+  selectedAllergenButtonText: {
     color: '#fff',
   },
   buttonContainer: {
@@ -79,14 +80,32 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20, 
     backgroundColor: '#F7B27D', 
-    top: '25%',
-    marginLeft: '60%',
+  },
+  backButton: {
+    fontSize: 14,
+    width: 100,
+    textAlign: "center",
+    alignItems: "center",
+    paddingVertical: 12,
+    borderRadius: 20,
+    marginTop: 20, 
+    backgroundColor: '#F7B27D', 
+    // marginLeft: '50%',
   },
   buttonText: {
     color: '#000',
     fontWeight: "700",
     fontFamily: FontFamily.firaSansCondensedBold,
   },
+  navButtons:{
+    flexDirection: 'row',
+    top: '20%',
+    justifyContent: "space-between",
+    paddingHorizontal: '20%'
+  },
+  iconTextContainer: {
+    flexDirection: 'row',
+  }
   });
 
   export default styles;

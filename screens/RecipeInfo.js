@@ -290,26 +290,30 @@ const RecipeInfo = ({ route }) => {
         <View style={styles.imageContainer}>
             <Image source={{uri: recipeInfo.imageUrl}} style={styles.cardImage} />
             <Pressable style={styles.iconContainerLeft}>
-              <View style={{ borderRadius: 10, padding: 5, backgroundColor: '#DBD1C6' }}>
+              <View style={{ borderRadius: 10, padding: 5, backgroundColor: '#f2f1ed' }}>
                 <Ionicons name="chevron-back-outline" size={24} color="black" onPress={() => navigation.navigate('Home')} currentPage={('RecipeInfo', { recipe })}/>
               </View>
             </Pressable>
             <View style={styles.iconContainerRight}>
-            <Pressable style={styles.icon} onPress={clickLikeIcon}>
-              { isLiked ? (
-                <Ionicons name="heart" size={24} color='#FFF'/>
-              ) : (
-                <Ionicons name="heart-outline" size={24} color='#FFF'/>
-              )}
-            </Pressable>
-            <Pressable style={styles.icon} onPress={clickAddIcon}>
-              { isAdded ? (
-                <Ionicons name="add-circle" size={24} color='#FFF'/>
-              ): (
-                <Ionicons name="add-circle-outline" size={24} color='#FFF'/>
-              )}
-            </Pressable>
+              <View style={{ borderRadius: 10, padding: 5, backgroundColor: '#f2f1ed' }}>
+              <Pressable style={styles.icon} onPress={clickLikeIcon}>
+                { isLiked ? (
+                  <Ionicons name="heart" size={24} color='#000'/>
+                ) : (
+                  <Ionicons name="heart-outline" size={24} color='#000'/>
+                )}
+              </Pressable>
             </View>
+            <View style={{ borderRadius: 10, padding: 5, backgroundColor: '#f2f1ed', marginLeft: 5 }}>
+              <Pressable style={styles.icon} onPress={clickAddIcon}>
+                { isAdded ? (
+                  <Ionicons name="add-circle" size={24} color='#000'/>
+                ): (
+                  <Ionicons name="add-circle-outline" size={24} color='#000'/>
+                )}
+              </Pressable>
+            </View>
+          </View>
 
         </View>
         <View style={styles.cardContent}>

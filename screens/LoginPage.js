@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { SafeAreaView, Text, TextInput, Image, Pressable, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, Text, TextInput, Image, Pressable, TouchableOpacity, View, ScrollView, KeyboardAvoidingView } from "react-native";
 import { useSignIn, useAuth } from "@clerk/clerk-expo";
 import styles from './LoginPageStyle';
 
@@ -32,6 +32,8 @@ const LoginPage = ({ navigation }) => {
 
 
   return (
+    <KeyboardAvoidingView style={{ flex:1 }} behavior="padding">
+    <ScrollView>
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image source={require('../assets/EBicon.png')} style={styles.logo} />
@@ -68,7 +70,11 @@ const LoginPage = ({ navigation }) => {
             </Text>
         </Pressable>
       </View>
+
     </SafeAreaView>
+    </ScrollView>
+    </KeyboardAvoidingView>
+
   );
 }
 

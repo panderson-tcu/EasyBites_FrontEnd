@@ -50,8 +50,15 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       // left: '80%',
       marginTop: '7%'
-
-    }
+    },
+    noRecipes: {
+      fontSize: 18,
+    },
+    noRecipesContainer: {
+      justifyContent: 'center',
+      top: 10,
+      paddingLeft: "5%",
+    },
   });
 
   export default styles;

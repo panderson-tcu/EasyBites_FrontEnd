@@ -12,17 +12,17 @@ const Quiz = ({navigation}) => {
 
   return (
     <View style={styles.quiz0}>
-      <ImageBackground
+      {/* <ImageBackground
         style={styles.brCornerIcon}
         resizeMode="cover"
         source={require("../assets/brCornerEBicon.png")}
-      />
+      /> */}
       <Text style={[styles.quizTitle, styles.quizTitleFlexBox]}>
         Personalize Your Easy Bites
       </Text>
       <Pressable
         style={[styles.quizButton, styles.quizTitleFlexBox]}
-        onLongPress={() => navigation.navigate("Quiz1")}
+        onPress={() => navigation.navigate("Quiz1")}
       >
         <Text style={[styles.takeQuiz]}>{`Take Quiz `}</Text>
       </Pressable>

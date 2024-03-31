@@ -28,6 +28,14 @@ const styles = StyleSheet.create({
     scrollViewcontent: {
       flexGrow: 1,
     },
+    noRecipes: {
+      fontSize: 18,
+    },
+    noRecipesContainer: {
+      justifyContent: 'center',
+      top: 10,
+      paddingLeft: "18%",
+    },
 });
 
 export default styles;
