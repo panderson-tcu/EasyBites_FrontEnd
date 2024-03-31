@@ -6,7 +6,8 @@ Text,
 SafeAreaView,
 ScrollView,
 TextInput,
-Image
+Image,
+RefreshControl
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -22,6 +23,16 @@ const Favorites = () => {
   const [addedRecipes, setAddedRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const {user} = useUser();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // Simulate a fetch operation
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
   
 
   const fetchLikedRecipes = async () => {
@@ -101,7 +112,17 @@ const Favorites = () => {
           onChangeText={handleSearch}
           />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollViewContent}
+        refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#7B886B']} // Customize the refresh indicator color
+              tintColor="#7B886B" // Customize the refresh indicator color on iOS
+            />
+          } 
+        >
         <View style={styles.cardWrapper}>
           {filteredRecipes.map((recipe) => (
                         <RecipeCard style={styles.card} 
