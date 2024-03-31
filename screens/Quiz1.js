@@ -53,7 +53,7 @@ const Quiz = ({ navigation }) => {
       { label: 'Microwave', value: '3004' },
       { label: 'Blender', value: '3005' },
       { label: 'Instant Pot', value: '3006' },
-      { label: 'None', value: '3007' },
+      // { label: 'None', value: '3007' },
     ].map(appliance => {
       return (
       <Pressable
@@ -76,9 +76,13 @@ const Quiz = ({ navigation }) => {
   };
   
   const submitAppliancePreferences = async () => {
+    selectedAppliance = [...selectedAppliance, { label: 'None', value: '3007' }];
+    
     const preferencesData = selectedAppliance.map(appliance => ({
       applianceId: appliance.value
     }));
+
+
 
     console.log('Sending preferences:', preferencesData);
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
