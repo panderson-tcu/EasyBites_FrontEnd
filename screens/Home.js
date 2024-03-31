@@ -95,7 +95,8 @@ const Home = () => {
 
     try{ // get approved recipes
       // await axios.get("http://localhost/recipes/approved",        
-      await axios.get("https://easybites-portal.azurewebsites.net/recipes/approved",
+      // await axios.get("https://easybites-portal.azurewebsites.net/recipes/approved",
+      await axios.get(`https://easybites-portal.azurewebsites.net/recipes/filtered/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

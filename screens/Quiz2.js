@@ -25,7 +25,7 @@ const allergenData = [
   { label: 'Wheat', value: '2005' },
   { label: 'Shellfish', value: '2006' },
   { label: 'Fish', value: '2007' },
-  { label: 'None', value: '2008' },
+  // { label: 'None', value: '2008' },
 ];
 
 // Object mapping allergens to icons
