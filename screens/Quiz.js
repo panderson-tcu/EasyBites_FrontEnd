@@ -77,13 +77,13 @@ const Quiz = ({navigation}) => {
         source={require("../assets/brCornerEBicon.png")}
       /> */}
       <Text style={[styles.quizTitle, styles.quizTitleFlexBox]}>
-        Personalize Your Easy Bites
+        Personalize your Easy Bites
       </Text>
       <Pressable
         style={[styles.quizButton, styles.quizTitleFlexBox]}
         onPress={() => navigation.navigate("Quiz1")}
       >
-        <Text style={[styles.takeQuiz]}>{`Take Quiz `}</Text>
+        <Text style={[styles.takeQuiz]}>{`Start`}</Text>
       </Pressable>
       <Pressable style={styles.skip} onPress={() => {
         setDefaults();
