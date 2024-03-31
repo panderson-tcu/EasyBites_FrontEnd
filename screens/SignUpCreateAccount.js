@@ -137,6 +137,10 @@ import styles from './SignUpCreateAccountStyle';
             }}>
             <Text style={styles.buttonText}>Verify Email</Text>
           </TouchableOpacity>
+          <Text style={styles.note}>
+            After verifying your account, you can edit your profile to have a customized Easy Bites experience
+          </Text>
+
         </View>
       )}
     </SafeAreaView>
