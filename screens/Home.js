@@ -1,5 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { ImageBackground, StyleSheet, Text, Pressable, View, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Image, ActivityIndicator } from "react-native";
+import React, {useState, useEffect} from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  RefreshControl,
+  ActivityIndicator
+} from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import RecipeCard from "../components/RecipeCard";
@@ -24,6 +37,18 @@ const Home = () => {
     firstName: user.firstName,
     lastName: user.lastName
   });
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // Simulate a fetch operation
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   const [loading, setLoading] = useState(true); // State variable to manage loading state
   const [showNoRecipesMessage, setShowNoRecipesMessage] = useState(false); // State variable to delay showing "No Recipes Found" message
 
@@ -128,7 +153,16 @@ const Home = () => {
         />
         <Ionicons name="filter-outline" size={24} style={styles.filterIcon} onPress={() => setFilterVisible(true)} />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <ScrollView 
+      contentContainerStyle={styles.scrollViewContent}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['#7B886B']} // Customize the refresh indicator color
+          tintColor="#7B886B" // Customize the refresh indicator color on iOS
+        />
+      }>
         {loading ? ( // Show loading indicator while loading data
           <ActivityIndicator size="large" color='#7B886B' style={styles.loadingIndicator} />
         ) : (

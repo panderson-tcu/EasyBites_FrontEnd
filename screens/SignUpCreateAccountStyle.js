@@ -68,7 +68,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
   },
-
+  note: {
+    fontSize: 20,
+    // fontWeight: 'bold',
+    marginTop: 30,
+    marginBottom: 20,
+    color: Color.colorGray_100,
+    textAlign: "center",
+    fontFamily: FontFamily.Arial,
+    fontWeight: "500",
+    alignItems: "center",
+    // fontSize: FontSize.size_26xl,
+  },
 });
 
 export default styles;

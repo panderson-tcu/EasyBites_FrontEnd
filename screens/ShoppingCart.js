@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, ScrollView, Image, Text } from "react-native";
+import { View, SafeAreaView, ScrollView, Image, Text, RefreshControl } from "react-native";
 import ListItem from "../components/ListItem"; 
 import styles from "./ShoppingCartStyle";
 import axios from 'axios';
@@ -12,6 +12,16 @@ const ShoppingCart = () => {
   const [krogerToken, setKrogerToken] = useState(null); 
   const [addedRecipes, setAddedRecipes] = useState([]);
   const {user} = useUser();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // Simulate a fetch operation
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
 
 
   const fetchAddedRecipes = async () => {
@@ -59,7 +69,7 @@ const fetchKrogerToken = async () => {
     React.useCallback(() => {
       fetchKrogerToken();
       fetchAddedRecipes();
-    }, [])// need to get this to reload the page when a recipe is unadded in ListItem
+    }, [refreshing])// need to get this to reload the page when a recipe is unadded in ListItem
   )
 
 
@@ -71,7 +81,16 @@ const fetchKrogerToken = async () => {
           source={require("../assets/Small-EB-Logo.png")}
         />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#7B886B']} // Customize the refresh indicator color
+            tintColor="#7B886B" // Customize the refresh indicator color on iOS
+          />
+        }
+      >
         <View style={styles.container}>
           {addedRecipes.length > 0 ? (
             addedRecipes.map((recipe, index) => (
@@ -83,6 +102,8 @@ const fetchKrogerToken = async () => {
             </View>              
           )}      
         </View>
+        <View style={{ height: 200 }} />
+
       </ScrollView>
     </SafeAreaView>
   );

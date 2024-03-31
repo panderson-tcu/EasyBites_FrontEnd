@@ -6,7 +6,8 @@ Text,
 SafeAreaView,
 ScrollView,
 TextInput,
-Image
+Image,
+RefreshControl
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -22,6 +23,16 @@ const Favorites = () => {
   const [addedRecipes, setAddedRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const {user} = useUser();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // Simulate a fetch operation
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
   
 
   const fetchLikedRecipes = async () => {
@@ -101,25 +112,31 @@ const Favorites = () => {
           />
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      <View style={styles.cardWrapper}>
-        {filteredRecipes.length > 0 ? (
-            filteredRecipes.map((recipe) => (
-            <RecipeCard
-                style={styles.card} 
-                key={recipe.recipeId} 
-                recipe={recipe} 
-                onPress={() => navigation.navigate('RecipeInfo', { recipe })} 
-                currentPage={'Favorites'} 
-                added={isAdded(recipe)}
+        <View style={styles.cardWrapper}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#7B886B']} // Customize the refresh indicator color
+              tintColor="#7B886B" // Customize the refresh indicator color on iOS
             />
-            ))
-        ) : (
-            <View style={styles.noRecipesContainer}>
-            <Text style={styles.noRecipes}>
-                You have no favorited recipes. {'\n'} Like a recipe by pressing <Ionicons name="heart-outline" size={24} color='#000'/> 
-            </Text>     
-            </View>              
-        )}
+          } >
+          {filteredRecipes.length > 0 ? (
+              filteredRecipes.map((recipe) => (
+                        <RecipeCard style={styles.card} 
+                            key={recipe.recipeId} 
+                            recipe={recipe} 
+                            onPress={() => navigation.navigate('RecipeInfo', { recipe })} 
+                            currentPage={'Favorites'} 
+                            added={isAdded(recipe)}/>
+                    ))
+                    ) : (
+                      <View style={styles.noRecipesContainer}>
+                      <Text style={styles.noRecipes}>
+                          You have no favorited recipes. {'\n'} Like a recipe by pressing <Ionicons name="heart-outline" size={24} color='#000'/> 
+                      </Text>     
+                      </View>              
+                  )}
         </View>
 
       </ScrollView>
