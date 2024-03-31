@@ -19,17 +19,25 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import axios from 'axios';
 
 
-const UPCRow = ({upcValue, krogerToken}) => {
+const UPCRow = ({upcValue, krogerToken, sendDataToListItem}) => {
     // make kroger request to get image address and ingredient name
     const [krogerInfo, setKrogerInfo] = useState({});
     const [isPressed, setIsPressed] = useState(false); // State to track if the icon is pressed
+    // const price = jsonData.datar.items[0].price;
 
+    const sendDataToParentHandler = (jsonData, isSubtracted) => {
+      price = parseFloat(jsonData.items[0].price.regular.toFixed(2)); // Example data (can be dynamic)
+      if(typeof price != "number"){
+        console.log("price is not a number, it is: ", price)
+      }
+      sendDataToListItem(price, isSubtracted);
+    };
 
     useEffect(() => {
         // console.log(upcValue)
 
         const fetchKrogerData = async () => {
-            console.log(upcValue)
+            // console.log(upcValue)
 
             try {
               const response = await axios.get(`https://api.kroger.com/v1/products/${upcValue}?filter.locationId=03500520`, {
@@ -37,8 +45,9 @@ const UPCRow = ({upcValue, krogerToken}) => {
                   Authorization: `Bearer ${krogerToken}`,
                 },
               });
-              console.log("Kroger Data:", response.data);
+              // console.log("Kroger Data:", response.data);
               setKrogerInfo(response.data.data)
+              sendDataToParentHandler(response.data.data, false);
               // Do something with the Kroger data
             } catch (error) {
               console.error("Error fetching Kroger data:", error);
@@ -47,9 +56,10 @@ const UPCRow = ({upcValue, krogerToken}) => {
           fetchKrogerData();
     }, [upcValue])
 
-    console.log(krogerInfo)
+    // console.log(krogerInfo)
     const toggleIcon = () => {
         setIsPressed(!isPressed); // Toggle the state when the icon is pressed
+        sendDataToParentHandler(krogerInfo, !isPressed);
     };
     
 

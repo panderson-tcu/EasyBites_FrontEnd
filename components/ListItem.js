@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { View, Text, TouchableWithoutFeedback, Pressable } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
@@ -40,10 +40,44 @@ const ListItem = ({ recipe, krogerToken }) => {
   const [expanded, setExpanded] = useState(false);
   const navigation = useNavigation();
   const {user} = useUser();
+  const [ priceTotal, setPriceTotal ] = useState(0);
+
+  // tempTotalPrice = 0;
 
   const onItemPress = () => {
     setExpanded(!expanded);
+    if(!expanded){
+      setPriceTotal(0)
+    }
   };
+
+  const handleDataFromUPCRow = (price, isSubtracted) => {
+    // Accumulate the data from each child component
+    console.log("ingredient price is: ", price)
+
+    price = parseFloat(price.toFixed(2))
+
+    if(isSubtracted){
+      console.log("ingredient is pressed")
+      setPriceTotal((prevTotal) => parseFloat((prevTotal - price).toFixed(2)));
+    } else {
+      console.log("ingredient is not pressed")
+      setPriceTotal((prevTotal) => parseFloat((prevTotal + price).toFixed(2)));
+    }
+  };
+
+  useEffect( () => {
+    setPriceTotal(0);
+    setExpanded(false);
+  }, [recipe]);
+
+  // useEffect(() => {
+  //   // Calculate price total once when the component mounts
+  //   const totalPrice = recipe.ingredients.reduce((total, ingredient) => {
+  //     return total + ingredient.price;
+  //   }, 0);
+  //   setPriceTotal(totalPrice);
+  // }, []);
 
   const unaddRecipe = async() => {
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
@@ -88,7 +122,9 @@ const ListItem = ({ recipe, krogerToken }) => {
               <Pressable  onPress={() => navigation.navigate('RecipeInfo', { recipe })} currentPage={'ShoppingCart'}>
                 <Text style={styles.recipeName}>{recipe.title}</Text>
               </Pressable>
-                <Text style={styles.recipePrice}>${recipe.estimatedCost}</Text>
+                {expanded && (
+                  <Text style={styles.recipePrice}>${priceTotal}</Text>
+                )}                
                 {/* <Text style={styles.recipePrice}>${parseFloat(krogerToken.estimatedCost).toFixed(2)}</Text> */}
                 <Text style={styles.recipeTime}>{recipe.cooktime} minutes</Text>
             </View>
@@ -102,7 +138,7 @@ const ListItem = ({ recipe, krogerToken }) => {
               <View style={styles.krogerInfo}>
                 {recipe.ingredients.map((ingredient, index) => (
                   <Pressable>
-                    <UPCRow key={index} upcValue={ingredient.upcValue} krogerToken={krogerToken}/>
+                    <UPCRow key={index} upcValue={ingredient.upcValue} krogerToken={krogerToken} sendDataToListItem={handleDataFromUPCRow}/>
                   </Pressable>
                   // <Text key={index}>{ingredient.upcValue}</Text>
                 ))}

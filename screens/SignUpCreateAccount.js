@@ -51,6 +51,7 @@ import styles from './SignUpCreateAccountStyle';
         code,
       });
       await setActive({ session: completeSignUp.createdSessionId });
+      // navigation.navigate('Quiz');
     } catch (err) {
       alert(err.errors[0].longMessage);
     }
@@ -130,7 +131,10 @@ import styles from './SignUpCreateAccountStyle';
               onChangeText={(code) => setCode(code)}
             />
           </View>
-          <TouchableOpacity style={styles.button} onPress={onPressVerify}>
+          <TouchableOpacity style={styles.button} onPress={() => {
+              onPressVerify();
+              // navigation.navigate('Quiz')
+            }}>
             <Text style={styles.buttonText}>Verify Email</Text>
           </TouchableOpacity>
         </View>
