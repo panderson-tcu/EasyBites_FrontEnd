@@ -39,6 +39,19 @@ const Home = () => {
   });
 
   const [refreshing, setRefreshing] = useState(false);
+  const applianceDefaults = [
+    { applianceId: '3000' },
+    { applianceId: '3001' },
+    { applianceId: '3002' },
+    { applianceId: '3003' },
+    { applianceId: '3004' },
+    { applianceId: '3005' },
+    { applianceId: '3006' },
+    { applianceId: '3007' },
+    ];
+  
+    const allergenDefaults = [];
+  
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -62,10 +75,66 @@ const Home = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         }
+      })
+      .then(response => {
+
+      })
+      .catch(async error => {
+        if (error.response.data.code !== 200) { // post user info
+          // axios.post("http://localhost/app-user", appUserInfo,     
+          await axios.post("https://easybites-portal.azurewebsites.net/app-user", appUserInfo,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              }
+            })
+          .then(response => {
+            if(response.status==200){
+              console.log('User added successfully!');
+            }
+            else {
+              console.error(
+                'Failed to add user: ',
+                response.status,
+                response.statusText
+              );
+            }
+          });
+
+          axios.put(`http://easybites-portal.azurewebsites.net/app-user/appliances/${user.id}`, applianceDefaults, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // 'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        // Handle response from backend if needed
+      })
+      .catch(error => {
+        console.error('Error sending preferences to backend:', error);
+        // Handle error if needed
+      });
+  
+  
+      axios.put(`http://easybites-portal.azurewebsites.net/app-user/allergens/${user.id}`, allergenDefaults, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // 'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        // Handle response from backend if needed
+      })
+      .catch(error => {
+        console.error('Error sending preferences to backend:', error);
+        // Handle error if needed
+      });
+        }
       });
 
+      
+
       const fetchLikedRecipes = async () => {
-        console.log("retrieving all recipes from backend")
         axios.get(`https://easybites-portal.azurewebsites.net/app-user/liked/${user.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -89,9 +158,9 @@ const Home = () => {
       setRecipes(response.data.data);
       setLoading(false); // Set loading to false when data is fetched successfully
     } catch (error) {
-      console.error("Error fetching recipes:", error);
-      setLoading(false); // Set loading to false if there's an error
-      setShowNoRecipesMessage(true); // Show "No Recipes Found" message in case of error
+        console.error("Error fetching recipes:", error);
+        setLoading(false); // Set loading to false if there's an error
+        setShowNoRecipesMessage(true); // Show "No Recipes Found" message in case of error
     }
   };
 

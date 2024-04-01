@@ -29,7 +29,6 @@ const Quiz = ({ navigation }) => {
   const {user} = useUser();
 
   const toggleAppliance = (appliance) => {
-    console.log("Appliance:", appliance);
     const index = selectedAppliance.findIndex(item => item.label === appliance.label);
     if (index !== -1) {
       setSelectedAppliance(prevState => (
@@ -76,15 +75,17 @@ const Quiz = ({ navigation }) => {
   };
   
   const submitAppliancePreferences = async () => {
-    selectedAppliance = [...selectedAppliance, { label: 'None', value: '3007' }];
+    // selectedAppliance = [...selectedAppliance, { label: 'None', value: '3007' }];
     
-    const preferencesData = selectedAppliance.map(appliance => ({
+    const selectedApplianceAndNone = [...selectedAppliance, { label: 'None', value: '3007' }];
+
+
+    const preferencesData = selectedApplianceAndNone.map(appliance => ({
       applianceId: appliance.value
     }));
 
 
 
-    console.log('Sending preferences:', preferencesData);
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
     // axios.put(`http://localhost/app-user/appliances/${user.id}`, preferencesData, {
@@ -95,8 +96,6 @@ const Quiz = ({ navigation }) => {
       }
     })
     .then(response => {
-      console.log("successful adding appliances for user")
-      console.log('Response from backend:', response.data);
       // Handle response from backend if needed
     })
     .catch(error => {

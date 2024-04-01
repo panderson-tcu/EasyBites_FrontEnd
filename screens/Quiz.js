@@ -42,8 +42,6 @@ const Quiz = ({navigation}) => {
       }
     })
     .then(response => {
-      console.log("skip successful adding appliances for user")
-      console.log('Response from backend:', response.data);
       // Handle response from backend if needed
     })
     .catch(error => {
@@ -59,8 +57,6 @@ const Quiz = ({navigation}) => {
       }
     })
     .then(response => {
-      console.log("successful adding appliances for user")
-      console.log('Response from backend:', response.data);
       // Handle response from backend if needed
     })
     .catch(error => {

@@ -46,7 +46,6 @@ const Quiz = ({ navigation }) => {
   const {user} = useUser();
 
   const toggleAllergen = (allergen) => {
-    console.log("Allergen:", allergen);
     const index = selectedAllergen.findIndex(item => item.label === allergen.label);
     if (index !== -1) {
       setSelectedAllergen(prevState => (
@@ -91,7 +90,6 @@ const Quiz = ({ navigation }) => {
       allergenId: allergen.value
     }));
 
-    console.log('Sending allergen preferences:', preferencesData);
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
     // axios.put(`http://localhost/app-user/allergens/${user.id}`, preferencesData, {
@@ -102,8 +100,6 @@ const Quiz = ({ navigation }) => {
       }
     })
     .then(response => {
-      console.log("successful adding allergen for user")
-      console.log('Response from backend:', response.data);
       // Handle response from backend if needed
     })
     .catch(error => {

@@ -28,53 +28,53 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
     }, [added])
 
     const renderAllergenIcons = () => {
-      return allergens.map((allergen) => {
+      return allergens.map((allergen, index) => {
         switch (allergen.name) {
           case 'Shellfish':
             return (
-              <View style={[styles.allergenIcon, { backgroundColor: 'rgba(231, 103, 103, 0.67)' }]}>
+              <View key={index} style={[styles.allergenIcon, { backgroundColor: 'rgba(231, 103, 103, 0.67)' }]}>
                 <FontAwesome6 name="shrimp" size={16} color="black" />
               </View>
             );
           case 'Fish':
             return (
-              <View style={[styles.allergenIcon, { backgroundColor: '#A4B2D8' }]}>
+              <View key={index} style={[styles.allergenIcon, { backgroundColor: '#A4B2D8' }]}>
                 <Ionicons name="fish-outline" size={16} color="black" />
               </View>
             );
           case 'Milk':
             return (
-              <View style={[styles.allergenIcon, { backgroundColor: '#rgba(171, 64, 57, .6)' }]}>
+              <View key={index} style={[styles.allergenIcon, { backgroundColor: '#rgba(171, 64, 57, .6)' }]}>
                   <MaterialCommunityIcons name="cow" size={16} color="black" />
                 </View>
             );
           case 'Soy':
             return (
-              <View style={[styles.allergenIcon, { backgroundColor: '#9CB99F' }]}>
+              <View key={index} style={[styles.allergenIcon, { backgroundColor: '#9CB99F' }]}>
                   <Text style={styles.allergenText}>soy</Text>
                 </View>
             );
           case 'Wheat':
               return (
-                <View style={[styles.allergenIcon, { backgroundColor: '#B49782' }]}>
+                <View key={index} style={[styles.allergenIcon, { backgroundColor: '#B49782' }]}>
                   <FontAwesome6 name="wheat-awn" size={16} color="black" />
                 </View>
               );
           case 'Eggs':
             return (
-              <View style={[styles.allergenIcon, { backgroundColor: '#E2C971' }]}>
+              <View key={index} style={[styles.allergenIcon, { backgroundColor: '#E2C971' }]}>
                 <MaterialCommunityIcons name="egg-outline" size={16} color="black" />
               </View>
             );
           case 'Peanuts':
             return (
-              <View style={[styles.allergenIcon, { backgroundColor: '#AC9BD5' }]}>
+              <View key={index} style={[styles.allergenIcon, { backgroundColor: '#AC9BD5' }]}>
                   <MaterialCommunityIcons name="peanut-outline" size={16} color="black" />
                 </View>
             );
           case 'Tree Nuts':
             return (
-              <View style={[styles.allergenIcon, { backgroundColor: '#F7B27D' }]}>
+              <View key={index} style={[styles.allergenIcon, { backgroundColor: '#F7B27D' }]}>
                   <Text style={styles.allergenText}>nut</Text>
                 </View>
             );
@@ -87,12 +87,9 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
 
     const clickIcon = async () => {
       const token = await Clerk.session.getToken({ template: 'springBootJWT' });
-      console.log("clicked icon")
       if(currentPage === 'Home'){
-        console.log("clicked like icon")
 
         if(isPressed){
-          console.log("unliking a recipe")
           // axios.patch(`http://localhost/recipes/removeLike/${recipe.recipeId}/${user.id}`, {},
             axios.patch(`https://easybites-portal.azurewebsites.net/recipes/removeLike/${recipe.recipeId}/${user.id}`, {},
             {
@@ -101,8 +98,6 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
               }
             } )
             .then (response => {
-              console.log("removed a like")
-              console.log(response)
               toggleIcon()
             })
             .catch(error => {
@@ -110,7 +105,6 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
             })
           }
         else {
-          console.log("liking a recipe")
 
           // axios.patch(`http://localhost/recipes/like/${recipe.recipeId}/${user.id}`, {},
         axios.patch(`https://easybites-portal.azurewebsites.net/recipes/like/${recipe.recipeId}/${user.id}`, {},
@@ -120,8 +114,6 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
             }
           } )
           .then (response => {
-            console.log("liked a recipe")
-            console.log(response)
             toggleIcon()
           })
           .catch(error => {
@@ -130,10 +122,8 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
         }
       }
       if (currentPage === 'Favorites') {
-        console.log("clicked add icon")
 
         if(isPressed){
-          console.log("unadding a recipe from shopping cart")
           // axios.patch(`http://localhost/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
             axios.patch(`https://easybites-portal.azurewebsites.net/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
             {
@@ -142,8 +132,6 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
               }
             } )
             .then (response => {
-              console.log("unadded a recipe")
-              console.log(response)
               toggleIcon()
             })
             .catch(error => {
@@ -151,7 +139,7 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
             })
           }
         else {
-          console.log("adding a recipe to shopping cart")
+
 
           // axios.patch(`http://localhost/recipes/shoppingCart/${recipe.recipeId}/${user.id}`, {},
         axios.patch(`https://easybites-portal.azurewebsites.net/recipes/shoppingCart/${recipe.recipeId}/${user.id}`, {},
@@ -161,8 +149,6 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
             }
           } )
           .then (response => {
-            console.log("added a recipe")
-            console.log(response)
             toggleIcon()
           })
           .catch(error => {

@@ -137,8 +137,8 @@ const ListItem = ({ recipe, krogerToken }) => {
             {expanded && (
               <View style={styles.krogerInfo}>
                 {recipe.ingredients.map((ingredient, index) => (
-                  <Pressable>
-                    <UPCRow key={index} upcValue={ingredient.upcValue} krogerToken={krogerToken} sendDataToListItem={handleDataFromUPCRow}/>
+                  <Pressable key={index}>
+                    <UPCRow upcValue={ingredient.upcValue} krogerToken={krogerToken} sendDataToListItem={handleDataFromUPCRow}/>
                   </Pressable>
                   // <Text key={index}>{ingredient.upcValue}</Text>
                 ))}

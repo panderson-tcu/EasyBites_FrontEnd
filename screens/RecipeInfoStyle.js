@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
     padding: 20,
-    whiteSpace: 'pre-line',
   },
   recipeDirections: {
     fontSize: 16,

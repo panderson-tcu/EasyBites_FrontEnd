@@ -39,13 +39,13 @@ export default function Profile({navigation}) {
                         <MaterialIcons name="arrow-forward-ios" size={20} color="gray" style={styles.rightArrow}/>
                     </View>
                 </Pressable>
- 
+{/*  
                 <TouchableOpacity style={styles.profileBottom}>
                     <View style={styles.buttonArea}>
                         <Text style={styles.buttonName}>Change Password</Text>
                         <MaterialIcons name="arrow-forward-ios" size={20} color="gray" style={styles.rightArrow}/>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <Pressable style={styles.profileBottom} onPress={() => navigation.navigate('AllergenKey')} currentPage={'Profile'}>
                     <View style={styles.buttonArea}>
