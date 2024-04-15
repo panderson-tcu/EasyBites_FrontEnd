@@ -14,22 +14,26 @@ const ShoppingCart = () => {
   const {user} = useUser();
   const [refreshing, setRefreshing] = useState(false);
 
+  /*
+  when user refreshes, redo fetch
+  */
   const onRefresh = () => {
     setRefreshing(true);
 
-    // Simulate a fetch operation
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   };
 
 
+  /*
+  fetch added recipes to be displayed on page
+  */
   const fetchAddedRecipes = async () => {
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
     console.log("retrieving all recipes from backend")
     axios.get(`https://easybites-portal.azurewebsites.net/app-user/shoppingCart/${user.id}`,
-    // axios.get(`http:/localhost/app-user/shoppingCart/${user.id}`,
     {
     headers: {
         Authorization: `Bearer ${token}`,
@@ -43,6 +47,9 @@ const ShoppingCart = () => {
     })
 }
 
+/*
+fetch kroger token for kroger api access
+*/
 const fetchKrogerToken = async () => {
   try {
     const user = 'easybites-c2a707875eab46789923efb8c484d6d5585439769308217340';
@@ -65,6 +72,9 @@ const fetchKrogerToken = async () => {
   }
 };
 
+/*
+re-fetch information when user navigates back to page
+*/
   useFocusEffect(
     React.useCallback(() => {
       fetchKrogerToken();
@@ -92,6 +102,10 @@ const fetchKrogerToken = async () => {
         }
       >
         <View style={styles.container}>
+          {/* 
+          If user has added recipes, display recipes
+          else show message saying no recipes in cart
+           */}
           {addedRecipes.length > 0 ? (
             addedRecipes.map((recipe, index) => (
               <ListItem key={index} recipe={recipe} krogerToken={krogerToken} />

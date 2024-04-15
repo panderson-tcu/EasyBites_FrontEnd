@@ -8,7 +8,9 @@ import UPCRow from "./UPCRow";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth ,useUser } from "@clerk/clerk-expo";
 
-
+/*
+  container to set ListItem as collapsed or not collapsed
+*/
 const CollapsibleContainer = ({ children, expanded }) => {
   const [height, setHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
@@ -36,14 +38,19 @@ const CollapsibleContainer = ({ children, expanded }) => {
   );
 };
 
+/*
+  Component that displays on page
+*/
 const ListItem = ({ recipe, krogerToken }) => {
   const [expanded, setExpanded] = useState(false);
   const navigation = useNavigation();
   const {user} = useUser();
   const [ priceTotal, setPriceTotal ] = useState(0);
 
-  // tempTotalPrice = 0;
 
+  /*
+    ListItem is pressed, toggle expanded
+  */
   const onItemPress = () => {
     setExpanded(!expanded);
     if(!expanded){
@@ -51,8 +58,11 @@ const ListItem = ({ recipe, krogerToken }) => {
     }
   };
 
+  /*
+    Receive price data from UPCRow  component
+    Calculate total from each UPCRow's individual price
+  */
   const handleDataFromUPCRow = (price, isSubtracted) => {
-    // Accumulate the data from each child component
     console.log("ingredient price is: ", price)
 
     price = parseFloat(price.toFixed(2))
@@ -66,24 +76,23 @@ const ListItem = ({ recipe, krogerToken }) => {
     }
   };
 
+  /*
+    If recipe changes, useEffect is called
+    So this is changed when there are new recipes loaded
+  */
   useEffect( () => {
     setPriceTotal(0);
     setExpanded(false);
   }, [recipe]);
 
-  // useEffect(() => {
-  //   // Calculate price total once when the component mounts
-  //   const totalPrice = recipe.ingredients.reduce((total, ingredient) => {
-  //     return total + ingredient.price;
-  //   }, 0);
-  //   setPriceTotal(totalPrice);
-  // }, []);
-
+  /*
+    User elects to unadd a recipe
+    axios call to remove recipe from user's shopping cart
+  */
   const unaddRecipe = async() => {
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
     console.log("unadding a recipe from shopping cart")
-    // axios.patch(`http://localhost/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
     axios.patch(`https://easybites-portal.azurewebsites.net/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
     {
       headers: {
@@ -99,19 +108,6 @@ const ListItem = ({ recipe, krogerToken }) => {
     })
   };
 
-  //   const fetchKrogerData = async (upcValue) => {
-  //   try {
-  //     const response = await axios.get(`https://api.kroger.com/v1/products/${upcValue}?filter.locationId=03500520`, {
-  //       headers: {
-  //         Authorization: `Bearer ${krogerToken}`,
-  //       },
-  //     });
-  //     console.log("Kroger Data:", response.data.data);
-  //     // Do something with the Kroger data
-  //   } catch (error) {
-  //     console.error("Error fetching Kroger data:", error);
-  //   }
-  // };
 
   return (
     <View style={styles.wrap}>
@@ -122,10 +118,13 @@ const ListItem = ({ recipe, krogerToken }) => {
               <Pressable  onPress={() => navigation.navigate('RecipeInfo', { recipe })} currentPage={'ShoppingCart'}>
                 <Text style={styles.recipeName}>{recipe.title}</Text>
               </Pressable>
+              {/* 
+                If expanded is true, display priceTotal
+                Else, don't display priceTotal
+              */}
                 {expanded && (
                   <Text style={styles.recipePrice}>${priceTotal}</Text>
                 )}                
-                {/* <Text style={styles.recipePrice}>${parseFloat(krogerToken.estimatedCost).toFixed(2)}</Text> */}
                 <Text style={styles.recipeTime}>{recipe.cooktime} minutes</Text>
             </View>
             <View style={styles.arrowContainer}>
@@ -134,13 +133,19 @@ const ListItem = ({ recipe, krogerToken }) => {
                 <Ionicons name="remove-circle-outline" size={24} />
               </Pressable>
             </View>
+              {/* 
+                If expanded is true, display UPCRows
+                Else, don't display UPCRows
+              */}
             {expanded && (
               <View style={styles.krogerInfo}>
+                {/* 
+                  For each ingredient in recipe.ingredients, display one UPCRow with the upcValue
+                */}
                 {recipe.ingredients.map((ingredient, index) => (
                   <Pressable key={index}>
                     <UPCRow upcValue={ingredient.upcValue} krogerToken={krogerToken} sendDataToListItem={handleDataFromUPCRow}/>
                   </Pressable>
-                  // <Text key={index}>{ingredient.upcValue}</Text>
                 ))}
               </View>
             )}

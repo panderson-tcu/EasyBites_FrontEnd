@@ -23,10 +23,16 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
     const {user} = useUser();
     const [isPressed, setIsPressed] = useState(added); // State to track if the icon is pressed
 
+    /*
+      If added changes, setIsPriced to added
+    */
     useEffect(() => {
       setIsPressed(added);
     }, [added])
 
+    /*
+      Render an allergenIcon for every allergen in allergens (which is recipe.allergens)
+    */
     const renderAllergenIcons = () => {
       return allergens.map((allergen, index) => {
         switch (allergen.name) {
@@ -85,12 +91,21 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
       });
     };
 
+    /*
+      Handle toggle for icon
+    */
     const clickIcon = async () => {
       const token = await Clerk.session.getToken({ template: 'springBootJWT' });
+      /*
+        If user is on home page, this function handles the like functionality
+      */
       if(currentPage === 'Home'){
 
         if(isPressed){
-          // axios.patch(`http://localhost/recipes/removeLike/${recipe.recipeId}/${user.id}`, {},
+          /*
+            User unlikes a recipe
+            Call axios call to remove the liked
+          */
             axios.patch(`https://easybites-portal.azurewebsites.net/recipes/removeLike/${recipe.recipeId}/${user.id}`, {},
             {
               headers: {
@@ -105,8 +120,10 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
             })
           }
         else {
-
-          // axios.patch(`http://localhost/recipes/like/${recipe.recipeId}/${user.id}`, {},
+          /*
+            User likes a recipe
+            Call axios call to add a like
+          */
         axios.patch(`https://easybites-portal.azurewebsites.net/recipes/like/${recipe.recipeId}/${user.id}`, {},
           {
             headers: {
@@ -121,10 +138,15 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
           })
         }
       }
+      /*
+        If user is on favorites page, this function handles the shopping cart functionality
+      */
       if (currentPage === 'Favorites') {
-
+          /*
+            User unadds a recipe
+            Call axios call to remove a recipe from a shopping cart
+          */
         if(isPressed){
-          // axios.patch(`http://localhost/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
             axios.patch(`https://easybites-portal.azurewebsites.net/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
             {
               headers: {
@@ -139,9 +161,10 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
             })
           }
         else {
-
-
-          // axios.patch(`http://localhost/recipes/shoppingCart/${recipe.recipeId}/${user.id}`, {},
+          /*
+            User adds a recipe
+            Call axios call to add a recipe to shopping cart
+          */  
         axios.patch(`https://easybites-portal.azurewebsites.net/recipes/shoppingCart/${recipe.recipeId}/${user.id}`, {},
           {
             headers: {
@@ -158,6 +181,9 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
       }
     }    
 
+    /*
+      toggles icon when user clicks icon
+    */
     const toggleIcon = () => {
       console.log("toggling icon")
       setIsPressed(!isPressed); // Toggle the state when the icon is pressed
@@ -170,6 +196,9 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
             <View style={styles.cardImageContainer}>
             <View style={styles.timeContainer}>
                   <View style={styles.actionIcon}>
+                    {/* 
+                      If current page is Home, will render heart icon when pressed and heart outline when not pressed
+                    */}
                       {currentPage === 'Home' &&                     
                         <Pressable onPress={clickIcon}>
                           {isPressed ? (
@@ -178,6 +207,9 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
                             <Ionicons name="heart-outline" size={24}/>
                           )}
                         </Pressable>}
+                      {/* 
+                        If current page is Favorites, will render add icon when pressed and add outline when not pressed
+                      */}
                       {currentPage === 'Favorites' && 
                         <Pressable onPress={clickIcon}>
                         {isPressed ? (
@@ -195,7 +227,6 @@ const RecipeCard = ({recipe, onPress, currentPage, added}) => {
                   <Ionicons name="people-outline" size={20} style={{ paddingLeft: 20 }}/>
                   <Text style={styles.recipeTime}> {recipe.servings}</Text>
                 </View>
-                {/* <Text style={styles.recipePrice}>${parseFloat(recipe.estimatedCost).toFixed(2)}</Text> */}
                 <View style={styles.timeContainer}>
                   <Ionicons name="time-outline" size={20}/>
                   <Text style={styles.recipeTime}>{recipe.cooktime} mins</Text>

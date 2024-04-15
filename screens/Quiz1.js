@@ -12,22 +12,15 @@ import styles from "./Quiz1Style";
 import axios from 'axios';
 import { useAuth ,useUser } from "@clerk/clerk-expo";
 
-// const applianceData = [
-//   { label: 'Air Fryer', value: '3000' },
-//   { label: 'Crockpot', value: '3001' },
-//   { label: 'Stove', value: '3002' },
-//   { label: 'Oven', value: '3003' },
-//   { label: 'Microwave', value: '3004' },
-//   { label: 'Blender', value: '3005' },
-//   { label: 'Instant Pot', value: '3006' },
-//   { label: 'None', value: '3007' },
-// ];
 
 const Quiz = ({ navigation }) => {
   const [selectedAppliance, setSelectedAppliance] = useState([]);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const {user} = useUser();
 
+  /*
+  Toggle appliance checked or not based on user selection
+  */
   const toggleAppliance = (appliance) => {
     const index = selectedAppliance.findIndex(item => item.label === appliance.label);
     if (index !== -1) {
@@ -42,7 +35,9 @@ const Quiz = ({ navigation }) => {
   };
   
   
-
+  /*
+  Show list of appliances on page
+  */
   const renderAppliances = () => {
     return [
       { label: 'Air Fryer', value: '3000' },
@@ -74,9 +69,13 @@ const Quiz = ({ navigation }) => {
     });
   };
   
+  /*
+  Function handle appliance preferences from front to backend
+  */
   const submitAppliancePreferences = async () => {
-    // selectedAppliance = [...selectedAppliance, { label: 'None', value: '3007' }];
-    
+    /*
+    Concatenate None to list of selected appliances so recipes with 'None' appliances are shown to user
+    */    
     const selectedApplianceAndNone = [...selectedAppliance, { label: 'None', value: '3007' }];
 
 
@@ -88,19 +87,18 @@ const Quiz = ({ navigation }) => {
 
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
-    // axios.put(`http://localhost/app-user/appliances/${user.id}`, preferencesData, {
+    /*
+    Send user's appliance preferences to the backend
+    */
     axios.put(`http://easybites-portal.azurewebsites.net/app-user/appliances/${user.id}`, preferencesData, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // 'Content-Type': 'application/json'
       }
     })
     .then(response => {
-      // Handle response from backend if needed
     })
     .catch(error => {
       console.error('Error sending preferences to backend:', error);
-      // Handle error if needed
     });
   };
 

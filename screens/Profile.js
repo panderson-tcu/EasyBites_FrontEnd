@@ -20,7 +20,6 @@ import { useAuth ,useUser } from "@clerk/clerk-expo";
 const profile_picture = <Ionicons name="person-circle-outline" size={150} color="#7B886B" />;
 
 
-
 export default function Profile({navigation}) {
     const {user} = useUser();
     return (
@@ -39,13 +38,6 @@ export default function Profile({navigation}) {
                         <MaterialIcons name="arrow-forward-ios" size={20} color="gray" style={styles.rightArrow}/>
                     </View>
                 </Pressable>
-{/*  
-                <TouchableOpacity style={styles.profileBottom}>
-                    <View style={styles.buttonArea}>
-                        <Text style={styles.buttonName}>Change Password</Text>
-                        <MaterialIcons name="arrow-forward-ios" size={20} color="gray" style={styles.rightArrow}/>
-                    </View>
-                </TouchableOpacity> */}
 
                 <Pressable style={styles.profileBottom} onPress={() => navigation.navigate('AllergenKey')} currentPage={'Profile'}>
                     <View style={styles.buttonArea}>

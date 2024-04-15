@@ -16,6 +16,9 @@ import styles from './SignUpCreateAccountStyle';
   const [code, setCode] = React.useState("");
  
   // start the sign up process.
+  /*
+  Handle signup with user input and email verification
+  */
   const onSignUpPress = async () => {
     if (!isLoaded) {
       return;
@@ -40,7 +43,10 @@ import styles from './SignUpCreateAccountStyle';
     }
   };
  
-  // This verifies the user using email code that is delivered.
+  // 
+  /*
+  Verify the user using email code that is delivered.
+  */
   const onPressVerify = async () => {
     if (!isLoaded) {
       return;
@@ -51,7 +57,6 @@ import styles from './SignUpCreateAccountStyle';
         code,
       });
       await setActive({ session: completeSignUp.createdSessionId });
-      // navigation.navigate('Quiz');
     } catch (err) {
       alert(err.errors[0].longMessage);
     }
@@ -64,6 +69,9 @@ import styles from './SignUpCreateAccountStyle';
       <View style={styles.logoContainer}>
         <Image source={require('../assets/EBicon.png')} style={styles.logo} />
       </View>
+      {/* 
+      If is not pending verification, display user input information for creating account
+      */}
       {!pendingVerification && (
         <View style={styles.formContainer}>
           <Text style={styles.title}>Welcome</Text>
@@ -120,6 +128,9 @@ import styles from './SignUpCreateAccountStyle';
 
         </View>
       )}
+      {/* 
+      If is  pending verification, user inputs their verification code
+      */}
       {pendingVerification && (
         <View style={styles.formContainer}>
           <Text style={styles.title}>Verify Account</Text>
