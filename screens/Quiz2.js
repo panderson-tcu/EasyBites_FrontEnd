@@ -28,7 +28,9 @@ const allergenData = [
   // { label: 'None', value: '2008' },
 ];
 
-// Object mapping allergens to icons
+/*
+Map allergen names to allergen's icons
+*/
 const allergenIcons = {
   Milk: <MaterialCommunityIcons name="cow" size={16} color="black" />,
   Eggs: <MaterialCommunityIcons name="egg-outline" size={16} color="black" />,
@@ -45,6 +47,9 @@ const Quiz = ({ navigation }) => {
   const [selectedAllergen, setSelectedAllergen] = useState([]);
   const {user} = useUser();
 
+  /*
+  Toggle allergen checked or not based on user selection
+  */
   const toggleAllergen = (allergen) => {
     const index = selectedAllergen.findIndex(item => item.label === allergen.label);
     if (index !== -1) {
@@ -58,6 +63,9 @@ const Quiz = ({ navigation }) => {
     }
   };
 
+  /*
+  Show list of appliances on page
+  */
   const renderAllergens = () => {
     return allergenData.map(allergen => (
       <Pressable
@@ -85,6 +93,9 @@ const Quiz = ({ navigation }) => {
     ));
   };
 
+  /*
+  Function handle allergen preferences from front to backend
+  */
   const submitAllergenPreferences = async () => {
     const preferencesData = selectedAllergen.map(allergen => ({
       allergenId: allergen.value
@@ -92,19 +103,18 @@ const Quiz = ({ navigation }) => {
 
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
-    // axios.put(`http://localhost/app-user/allergens/${user.id}`, preferencesData, {
+    /*
+    Send user's appliance preferences to the backend
+    */
     axios.put(`http://easybites-portal.azurewebsites.net/app-user/allergens/${user.id}`, preferencesData, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // 'Content-Type': 'application/json'
       }
     })
     .then(response => {
-      // Handle response from backend if needed
     })
     .catch(error => {
       console.error('Error sending preferences to backend:', error);
-      // Handle error if needed
     });
   };
 

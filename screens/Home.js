@@ -52,7 +52,9 @@ const Home = () => {
   
     const allergenDefaults = [];
   
-
+  /*
+    Logic for pull refresh functionality
+  */
   const onRefresh = () => {
     setRefreshing(true);
 
@@ -71,6 +73,9 @@ const Home = () => {
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
     try {
+      /*
+        Axios call to retrieve user info from database
+      */
       await axios.get(`https://easybites-portal.azurewebsites.net/app-user/${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -80,8 +85,10 @@ const Home = () => {
 
       })
       .catch(async error => {
+        /*
+          If user is not in backend, add their information to the backend with axios request
+        */
         if (error.response.data.code !== 200) { // post user info
-          // axios.post("http://localhost/app-user", appUserInfo,     
           await axios.post("https://easybites-portal.azurewebsites.net/app-user", appUserInfo,
             {
               headers: {
@@ -100,40 +107,47 @@ const Home = () => {
               );
             }
           });
-
+          /*
+            Set user's appliances to defaults
+          */
           axios.put(`http://easybites-portal.azurewebsites.net/app-user/appliances/${user.id}`, applianceDefaults, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          // 'Content-Type': 'application/json'
-        }
-      })
-      .then(response => {
-        // Handle response from backend if needed
-      })
-      .catch(error => {
-        console.error('Error sending preferences to backend:', error);
-        // Handle error if needed
-      });
+            headers: {
+              Authorization: `Bearer ${token}`,
+              // 'Content-Type': 'application/json'
+            }
+          })
+          .then(response => {
+            // Handle response from backend if needed
+          })
+          .catch(error => {
+            console.error('Error sending preferences to backend:', error);
+            // Handle error if needed
+          });
   
-  
-      axios.put(`http://easybites-portal.azurewebsites.net/app-user/allergens/${user.id}`, allergenDefaults, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          // 'Content-Type': 'application/json'
-        }
-      })
-      .then(response => {
-        // Handle response from backend if needed
-      })
-      .catch(error => {
-        console.error('Error sending preferences to backend:', error);
-        // Handle error if needed
-      });
+          /*
+            Set user's allerges to defaults
+          */
+          axios.put(`http://easybites-portal.azurewebsites.net/app-user/allergens/${user.id}`, allergenDefaults, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              // 'Content-Type': 'application/json'
+            }
+          })
+          .then(response => {
+            // Handle response from backend if needed
+          })
+          .catch(error => {
+            console.error('Error sending preferences to backend:', error);
+            // Handle error if needed
+          });
         }
       });
 
       
-
+      /*
+        Axios call to retriee user's liked recipes from backend
+        This will set heart icon to filled in if recipe is liked by user
+      */
       const fetchLikedRecipes = async () => {
         axios.get(`https://easybites-portal.azurewebsites.net/app-user/liked/${user.id}`, {
           headers: {
@@ -148,7 +162,9 @@ const Home = () => {
           });
       }
       fetchLikedRecipes();
-
+      /*
+        Retrieve recipes with axios request that satisfy allergen and appliance filters
+      */
       const response = await axios.get(`https://easybites-portal.azurewebsites.net/recipes/filtered/${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -164,12 +180,18 @@ const Home = () => {
     }
   };
 
+  /*
+    When user navigates to Home page, re-call fetchData to refresh recipe data
+  */
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
     }, [])
   );
 
+  /*
+    Filter recipes based on search query, protein, price, and cooktime
+  */
   const filteredRecipes = recipes.filter(recipe => {
     const includesSearchQuery = recipe.title.toLowerCase().includes(searchQuery.toLowerCase());
 

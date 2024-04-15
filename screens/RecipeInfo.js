@@ -31,15 +31,13 @@ const RecipeInfo = ({ route }) => {
   const [isAdded, setIsAdded] = useState(false);
   const {user} = useUser();
 
-  // console.log(recipe)
-  // console.log(recipe.recipeId)
-  // console.log("about to call useEffect")
-
-  // let recipeId = -10;
   const recipeId = recipe.recipeId
 
+  /*
+  When recipeId is changed (new recipeInfo page is accessed), fetch recipe details, 
+  fetch liked recipes, fetch added recipes
+  */
   useEffect(() => {
-
     const fetchRecipeDetails = async () => {
       const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
@@ -108,21 +106,17 @@ const RecipeInfo = ({ route }) => {
 }
   fetchAddedRecipes();
 
-
-
-  console.log("value of isLiked", isLiked)
-  console.log("value of isAdded", isAdded)
-
-
   }, [recipeId]);
   
+  /*
+  Handle like or unlike recipe
+  */
   const clickLikeIcon = async () => {
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
       console.log("clicked like icon")
 
       if(isLiked){
         console.log("unliking a recipe")
-        // axios.patch(`http://localhost/recipes/removeLike/${recipe.recipeId}/${user.id}`, {},
           axios.patch(`https://easybites-portal.azurewebsites.net/recipes/removeLike/${recipe.recipeId}/${user.id}`, {},
           {
             headers: {
@@ -140,8 +134,6 @@ const RecipeInfo = ({ route }) => {
         }
       else {
         console.log("liking a recipe")
-
-        // axios.patch(`http://localhost/recipes/like/${recipe.recipeId}/${user.id}`, {},
       axios.patch(`https://easybites-portal.azurewebsites.net/recipes/like/${recipe.recipeId}/${user.id}`, {},
         {
           headers: {
@@ -159,13 +151,15 @@ const RecipeInfo = ({ route }) => {
       }
   }
 
+  /*
+  Handle add or un-add recipe
+  */
   const clickAddIcon = async () => {
     const token = await Clerk.session.getToken({ template: 'springBootJWT' });
 
       console.log("clicked add icon")
       if(isAdded){
         console.log("unadding a recipe from shopping cart")
-        // axios.patch(`http://localhost/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
           axios.patch(`https://easybites-portal.azurewebsites.net/recipes/removeShoppingCart/${recipe.recipeId}/${user.id}`, {},
           {
             headers: {
@@ -184,7 +178,6 @@ const RecipeInfo = ({ route }) => {
       else {
         console.log("adding a recipe to shopping cart")
 
-        // axios.patch(`http://localhost/recipes/shoppingCart/${recipe.recipeId}/${user.id}`, {},
       axios.patch(`https://easybites-portal.azurewebsites.net/recipes/shoppingCart/${recipe.recipeId}/${user.id}`, {},
         {
           headers: {
@@ -201,30 +194,25 @@ const RecipeInfo = ({ route }) => {
         })
       }
   }
-
+  /*
+  When toggle like icon based on user selection
+  */
   const toggleLikeIcon = () => {
     console.log("toggling liked icon")
     setIsLiked(!isLiked); // Toggle the state when the icon is pressed
   };
 
+  /*
+  When toggle add icon based on user selection
+  */
   const toggleAddIcon = () => {
     console.log("toggling added icon")
     setIsAdded(!isAdded); // Toggle the state when the icon is pressed
   };
 
-  // isLiked = () => {
-  //   return likedRecipes.some(likedRecipe => likedRecipe.recipeId === recipeId);
-  // }
-
-  // isAdded = () => {
-  //   return addedRecipes.some(addedRecipes => addedRecipes.recipeId === recipeId);
-  // }
-  
-
-
-  // console.log("printing recipeInfo")
-  // console.log(recipeInfo)
-
+  /*
+  Show recipe's allergens on page with the icon
+  */
   const renderAllergenIcons = () => {
     return recipeInfo.allergens.map((allergen, index) => {
       switch (allergen.name) {
@@ -283,8 +271,6 @@ const RecipeInfo = ({ route }) => {
     });
   };
 
-
-  // console.log(recipeInfo.servings)
   return (
     <ScrollView>
         <View style={styles.imageContainer}>

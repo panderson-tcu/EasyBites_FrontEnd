@@ -11,6 +11,10 @@ const LoginPage = ({ navigation }) => {
   const [password, setPassword] = React.useState("");
   const { userId, sessionId, getToken } = useAuth();
  
+  /*
+  Assert that user login works
+  if works, set session to active
+  */
   const onSignInPress = async () => {
     if (!isLoaded) {
       return;

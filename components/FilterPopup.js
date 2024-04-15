@@ -8,6 +8,9 @@ const FilterPopup = ({ visible, onClose, onApply }) => {
   const [maxCookTime, setMaxCookTime] = useState('');
   const [selectedProteins, setSelectedProteins] = useState([]);
   
+  /*
+    user selects a protein which is then added to selectedProteins list
+   */
   const toggleProtein = (protein) => {
     const updatedProteins = selectedProteins.includes(protein)
       ? selectedProteins.filter(p => p !== protein)
@@ -15,6 +18,10 @@ const FilterPopup = ({ visible, onClose, onApply }) => {
     setSelectedProteins(updatedProteins);
   };
 
+  /*
+    apply selected filters
+    use react callback function onApply() to send the information to the parent component
+  */
   const handleApply = () => {
     const filters = {};
     if (maxPrice !== '') filters.maxPrice = parseFloat(maxPrice);
@@ -24,6 +31,9 @@ const FilterPopup = ({ visible, onClose, onApply }) => {
     console.log(filters)
   };
 
+  /*
+    user selects to reset filter
+  */
 
   const handleReset = () => {
     setMaxPrice('');

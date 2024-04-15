@@ -13,7 +13,9 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Quiz = ({navigation}) => {
-
+    /*
+        Display allergen icons and corresponding name
+    */
   return (
     <SafeAreaView style={styles.allergen}>
         <Pressable style={styles.iconContainerLeft}>
